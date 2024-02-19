@@ -1,3 +1,4 @@
+from jes4py import *
 def mirrorVertical(src):
 
 
@@ -11,7 +12,10 @@ def mirrorVertical(src):
           
           
           
-    show(src)
     explore(src)
+    explore(src)
+
+source = makePicture("salad.jpg")
+mirrorVertical(source)
 
 

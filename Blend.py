@@ -1,3 +1,4 @@
+from jes4py import *
 def myBlendPic_524():
   salad = makePicture("C:\Users\m_h37\Desktop\salad1.png")
   burger = makePicture("c:\Users\m_h37\Desktop\Test1.png")
@@ -34,7 +35,7 @@ def myBlendPic_524():
       sourcey =sourcey+1
     sourcex =sourcex+1
       
-  show(canvas)
+  explore(canvas)
   return canvas
   
   

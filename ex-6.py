@@ -1,4 +1,4 @@
-
+from jes4py import *
 def copyHorse (): 
     src = makePicture("C:\Users\m_h37\Desktop\download.jpg")
     canvas = makeEmptyPicture(1000,1000)
@@ -11,6 +11,6 @@ def copyHorse ():
           targetP = getPixel(canvas,sy,getWidth(src)-sx -1)
           setColor(targetP,color)
       
-    show(src)
-    show(canvas)
+    explore(src)
+    explore(canvas)
     return canvas

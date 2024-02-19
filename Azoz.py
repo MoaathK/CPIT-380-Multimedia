@@ -1,3 +1,4 @@
+from jes4py import *
 def lighten():
   picture=makePicture("C:\Users\m_h37\Desktop\download.jpg")
   for x in range(0,getWidth(picture)):
