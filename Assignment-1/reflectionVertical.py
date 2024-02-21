@@ -9,7 +9,7 @@ def reflectionVertical(source):
             rightPixel = getPixel(source,width - x - 1,y)
             color = getColor(leftPixel)
             setColor(rightPixel,color)
-    print("fvfv")
+    
     explore(source)
 source = makePicture("salad.jpg")
 reflectionVertical(source)
