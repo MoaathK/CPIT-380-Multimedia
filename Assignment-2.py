@@ -3,7 +3,7 @@ from jes4py import*
 def scaleDown(src,scaleFactor):
     #scaleFactor = int(entery.get())
     src = makePicture("salad.jpg")
-    newScaleF = (scaleFactor/100) +1
+    newScaleF = 100-scaleFactor
     new_width = int(getWidth(src) * (newScaleF/100))
     new_height = int(getHeight(src) * (newScaleF/100))
 
@@ -37,7 +37,24 @@ def scaleUpPic(src,scaleFactor):
     
     explore(canvas)
 
+def scaleUpPic2(src,scaleFactor):
+    original_width = getWidth(src)
+    original_height = getHeight(src)
+    #newScaleF = (scaleFactor/100)+1
+    new_width = int(original_width * ( (scaleFactor/100) +1 ) )
+    new_height = int(original_height * ( (scaleFactor/100) +1 ) )
 
+    canvas = makeEmptyPicture(new_width,new_height)
+
+    for x in range(new_width):
+        for y in range(new_height):
+            orgX = int(x/((scaleFactor/100)+1))
+            orgY = int(y/((scaleFactor/100)+1))
+
+            color = getColor(getPixel(src,orgX,orgY))
+            setColor(getPixel(canvas,x,y),color)
+    
+    explore(canvas)
 source = makePicture("salad.jpg")
-scaleDown(source,70)
+scaleUpPic2(source,25)
 
