@@ -21,5 +21,5 @@ def scaleUpPic(src,scaleFactor):
 
 
 source = makePicture("salad.jpg")
-scaleUpPic(source,0.5)
+scaleUpPic(source,2)
 
