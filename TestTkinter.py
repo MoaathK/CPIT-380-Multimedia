@@ -28,14 +28,13 @@ root.mainloop()
 '''
 from jes4py import*
 import tkinter as tk
+# this method is done for scaling an image using X Value
 def scaleUpPic(entery):
-    scaleFactor = entery.get()
+    scaleFactor = int(entery.get())
     src = makePicture("salad.jpg")
-    original_width = getWidth(src)
-    original_height = getHeight(src)
 
-    new_width = int(original_width * scaleFactor)
-    new_height = int(original_height * scaleFactor)
+    new_width = int(getWidth(src) * scaleFactor)
+    new_height = int(getHeight(src) * scaleFactor)
 
     canvas = makeEmptyPicture(new_width,new_height)
 
@@ -48,16 +47,14 @@ def scaleUpPic(entery):
             setColor(getPixel(canvas,x,y),color)
     
     explore(canvas)
-def getScaleValue():
-    selectedValue = tk.scale.get()
-    scaleUpPic(selectedValue)
+
 
 def scaleDown():
     print("test")
 
 
 
-
+# this method is done 
 def scaleUpXValue():
     Scale2 = tk.Tk()
     Scale2.geometry("500x300")
@@ -65,15 +62,12 @@ def scaleUpXValue():
     labe2 = tk.Label(Scale2,text="Enter the X value wnat to scale-up").grid(row=0)
     e1 = tk.Entry(Scale2)
     e1.grid(row=0,column=1)
-    
-    
-    
     button = tk.Button(Scale2 , text="Scale-Up", command=lambda: scaleUpPic(e1))
-    button.grid(row=1, column=0, columnspan=2)
+    button.grid(row=2, column=0, columnspan=2)
     buttonExit = tk.Button(Scale2 , text="Exit", command=Scale2.destroy)
-    buttonExit.grid(row=2, column=0, columnspan=2)
+    buttonExit.grid(row=4, column=0, columnspan=2)
 
-    print("Test")
+    
 
 
 
@@ -101,15 +95,15 @@ r = tk.Tk()
 r.geometry("500x300")
 r.title('Main')
 # this the lable and button to call the function scale up with scrollbar
-lableScaleUpScroll = tk.Label(r,text="Scale Up using Scrollbar?").grid(row=0)
+lableScaleUpScroll = tk.Label(r,text="Scale Up using Scale Bar?").grid(row=0)
 buttonScaleUpScroll = tk.Button(r,text="Click the button",command=scaleUpScrollbar).grid(row=0,column=1)
 # this the lable and button to call the function scale up with X value
-lableScaleUpXValue = tk.Label(r,text="Scale Up using X value?").grid(row=1)
-buttonScaleUpXValue = tk.Button(r,text="Click the button",command=scaleUpXValue).grid(row=1,column=1)
+lableScaleUpXValue = tk.Label(r,text="Scale Up using X value?").grid(row=2)
+buttonScaleUpXValue = tk.Button(r,text="Click the button",command=scaleUpXValue).grid(row=2,column=1)
 
 # this is the lable and button to call the function scale Down using scrollbar
-lableScaleDown = tk.Label(r,text="Scale Down using Scrollbar?").grid(row=2)
-button = tk.Button(r,text="Click the button",command=scaleDown).grid(row=2,column=1)
+lableScaleDown = tk.Label(r,text="Scale Down using Scale Bar?").grid(row=4)
+button = tk.Button(r,text="Click the button",command=scaleDown).grid(row=4,column=1)
 
 r.mainloop()
 
