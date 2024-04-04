@@ -1,6 +1,6 @@
 from jes4py import *
 
-writeFile = open(r"c:\Users\m_h37\Desktop\CPIT-380-Multimedia\Lab-2\copy.txt","rt")
+writeFile = open(r"copy.txt","rt")
 test = writeFile.read()
 
 

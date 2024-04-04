@@ -1,17 +1,10 @@
-import tkinter as tk
+from jes4py import*
+def descreaseRedHalf(picture):
+    pixels = getPixels(picture)
+    for index in range(0,int(len(pixels)/2)):
+        pixel = pixels[index]
+        value = getRed(pixel)
+        setRed(pixel,value*0.5)
 
-def getScale(scale,x):
-    selectValue = int(scale.get())
-    
-    print(type(selectValue))
-    print("test!")
-    print(selectValue)
-
-r =tk.Tk()
-r.geometry("200x150")
-scale = tk.Scale(r , from_=1 ,to=100,orient='horizontal')
-scale.pack(pady=10)
-button = tk.Button(r, text="Get Value" ,command=lambda: getScale(scale,1))
-button.pack(pady=10)
-
-r.mainloop()
+pic =makePicture("salad.jpg")
+descreaseRedHalf(pic)

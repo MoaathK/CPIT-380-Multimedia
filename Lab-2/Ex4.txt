@@ -1,0 +1,6 @@
+this file is contaning few senteces. First My name is Moath.
+Currently study CPIT-380 course that is using Python. 
+is this function working. is finding the word easy?.
+this line should be the lsat to print out
+thsi line shouldn't be printed
+Moath Alahmadi.
