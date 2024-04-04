@@ -4,7 +4,7 @@ import matplotlib.image as mpimg
 from jes4py import *
 
 # Load an image using matplotlib
-image_url = 'C:/Users/Moath/Documents/GitHub/CPIT-380-Multimedia/salad.jpg'  # Replace with your image URL or local path
+image_url = 'C:\Users\m_h37\Desktop\Github\CPIT-380-Multimedia\salad.jpg'  # Replace with your image URL or local path
 image = mpimg.imread(image_url)
 
 def histoCalc(image):
