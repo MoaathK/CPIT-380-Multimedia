@@ -13,6 +13,7 @@ def histoCalc(image):
     histR = [0] * 255
     histG = [0] * 255
     histB = [0] * 255
+    # panda
     for x in range(src.getWidth()):
         for y in range(src.getHeight()):
             img = getPixel(src,x,y)
