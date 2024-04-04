@@ -1,1 +1,4 @@
-print (�Welcome to Jython programing language! This is Lab 2*** Happy to be here�)
+baseURL = 'https://example.org/'
+languageCode ='en-us'
+title = 'Moath'
+theme = 'ananke'
