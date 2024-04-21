@@ -1,0 +1,28 @@
+Dear Students
+This lab assignment requires the implementation of Filters 
+through GUI where the user will choose the filter of his choice
+ from the given options.
+
+Develop your own algorithm based on, what is given for 3 by 3 Simple average.
+
+Do not use existing libraries for just calling functions that implement Filters.
+
+You are required to submit the implementation of the following 3 by 3 Filters. 5 marks each
+
+1-Simple Average -- #method start 4-23
+2-Weighted Average
+3-Median Filter
+4-Min/Max Filter
+5-Laplacian Filter
+6-Sobel Filter
+7-Prewitt Filter
+8-Robert Filter
+
+You will also implement, a Generalised Simple Average where user will
+choose the size of filter, such as 3by3 or 5by5
+or 7by7 etc...any odd numbered. 10 marks
+
+Submission:
+*.py file
+screenshot of the input image, Filter Code, and output Image.
+Anything else, you think is required to execute the code?
