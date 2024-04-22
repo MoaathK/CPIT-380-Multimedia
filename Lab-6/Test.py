@@ -1,7 +1,9 @@
 
 from jes4py import*
 import tkinter as tk
+from tkinter import *
 from tkinter import filedialog
+import customtkinter
 from PIL import Image, ImageTk
 
 def converBackToPicture(data):
@@ -29,7 +31,7 @@ def convertPictureTo2DArray(image):
 
     for x in range(height):
         for y in range(width):
-            pixel = getPixel(image, y, x)
+            pixel = getPixel(image, x, y)
             grayValue = int((getRed(pixel) + getGreen(pixel) + getBlue(pixel)) / 3)
             newImage[x][y] = grayValue
     return newImage
@@ -38,8 +40,8 @@ def convertPictureTo2DArray(image):
 
 
 
-def callNeighborhood(src,x,y):
-    image= convertPictureTo2DArray(src)
+def callNeighborhood(image,x,y):
+    #image= convertPictureTo2DArray(src)
     neighborhood = [
         image[x-1][y-1],image[x-1][y],image[x-1][y+1],
         image[x][y-1],image[x][y],image[x][y+1],
@@ -48,6 +50,7 @@ def callNeighborhood(src,x,y):
     return neighborhood
 # Part 1
 def simpleAverageFilter(image):
+    src= convertPictureTo2DArray(image)
     newImage = []
     for x in range(getHeight(image)):
         row = [0] * getWidth(image)
@@ -55,9 +58,11 @@ def simpleAverageFilter(image):
     #copy = makeEmptyPicture(getWidth(image),getHeight(image))
     for x in range(1,getHeight(image)-1):
         for y in range(1,getWidth(image)-1):
-            neighborhood = callNeighborhood(image,x,y)
+            neighborhood = callNeighborhood(src,x,y)
             average = sum(neighborhood) /len(neighborhood)
             newImage[x][y] =average
+
+    
     return newImage
 # Part 2
 def weightedAverage(image):
@@ -75,16 +80,17 @@ def weightedAverage(image):
         row = [0] * getWidth(image)
         newImage.append(row)
 
-        for x in range(1,height-1):
+        for x in range(1,height -1):
             for y in range(1,width-1):
                 weightSum = 0
                 totalWeight = 0
-                for i in range(3):
-                    for j in range(3):
-                        pixel = image2D[x-1 +i][y-1+j]
-                        weight = weights[i][j]
+                for i in range(-1,2):
+                    for j in range(-1,2):
+                        pixel = image2D[x+i][y+j]
+                        weight = weights[i+1][j+1]
                         weightSum = weightSum +pixel *weight
-                        totalWeight = totalWeight +weightSum
+                        totalWeight = totalWeight + weight
+
                 average = weightSum /totalWeight
                 newImage[x][y] = average
 
@@ -92,7 +98,7 @@ def weightedAverage(image):
 
 # Part 3
 def medianFilter(image):
-    
+    image2D = convertPictureTo2DArray(image)
     height = getHeight(image)
     width = getWidth(image)
     newImage = []
@@ -100,16 +106,32 @@ def medianFilter(image):
         row = [0] * getWidth(image)
         newImage.append(row)
 
-    for x in range(1,height-1):
+    for x in range(1,width-2):
+        for y in range(1,height-2):
+            sum =[]
+            for i in range(-1,2):
+                for j in range(-1,2):
+                    pixel = getPixel(image,x+j, y+i)
+                    total = getRed(pixel) + getBlue(pixel) + getGreen(pixel)
+                    sum.append(total)
+            sum.sort()
+            value = sum[int(len(sum) / 2)]
+            grey = int(value)
+            
+            
+            newImage[x][y] = grey
+
+
+    """ for x in range(1,height-1):
         for y in range(1,width-1):
             neighborhood = callNeighborhood(image, x, y)
             median_value = sorted(neighborhood)[4]
-            newImage[x][y] = median_value
+            newImage[x][y] = median_value """
     return newImage
 
 # part 4 Min
 def minFilter(image):
-    
+    src= convertPictureTo2DArray(image)
     height = getHeight(image)
     width = getWidth(image)
     newImage = []
@@ -119,13 +141,13 @@ def minFilter(image):
 
     for x in range(1,height-1):
         for y in range(1,width-1):
-            neighborhood = callNeighborhood(image, x, y)
+            neighborhood = callNeighborhood(src, x, y)
             minValue = min(neighborhood)
             newImage[x][y] = minValue
     return newImage
 # part 4 Max Filter
 def maxFilter(image):
-    
+    src= convertPictureTo2DArray(image)
     height = getHeight(image)
     width = getWidth(image)
     newImage = []
@@ -135,7 +157,7 @@ def maxFilter(image):
 
     for x in range(1,height-1):
         for y in range(1,width-1):
-            neighborhood = callNeighborhood(image, x, y)
+            neighborhood = callNeighborhood(src, x, y)
             maxValue = max(neighborhood)
             newImage[x][y] = maxValue
     return newImage
@@ -159,13 +181,16 @@ def laplacianFilter(image):
     for x in range(1,height-1):
             for y in range(1,width-1):
                 laplcaianSum = 0
-                for i in range(3):
-                    for j in range(3):
-                        pixel = image2D[x-1 +i][y-1+j]
-                        weight = kernal[i][j]
-                        laplcaianSum = laplcaianSum + pixel * weight
-                
-                newImage[x][y] = laplcaianSum
+                for i in range(-1,2):
+                    for j in range(-1,2):
+                        pixelK = kernal[i+1][j+1]
+                        pixel = getPixel(image,x+j, y+i)
+                        level = (getRed(pixel) +getGreen(pixel) + getBlue(pixel )/3)
+                        
+                        laplcaianSum = laplcaianSum + level*pixelK
+                intensity = int(laplcaianSum/9)
+
+                newImage[x][y] = intensity
     return newImage
 
 # Part 6 Sobel Filter
@@ -268,8 +293,8 @@ def robertFilter(image):
             for y in range(1,width-1):
                 gardiX = 0
                 gardiY = 0
-                for i in range(3):
-                    for j in range(3):
+                for i in range(-1,2):
+                    for j in range(-1,2):
                         pixel = image2D[x-1 +i][y-1+j]
                         gardiX += pixel * kernalX[i][j]
                         gardiY += pixel * kernalY[i][j]
@@ -309,8 +334,13 @@ def performFilter(imageLabel,path,num):
     elif num ==9:
         filterdImgae = robertFilter(image)
 
+    
     picture1 = converBackToPicture(filterdImgae)
-    guiImage = ImageTk.PhotoImage(picture1)
+    writePictureTo(picture1,"./FilterImage.png")
+    image2 = Image.open("./FilterImage.png")
+    guiImage = ImageTk.PhotoImage(image2)
+    
+
 
     imageLabel.config(image=guiImage)
     imageLabel.image = guiImage
@@ -327,10 +357,10 @@ def buttonForPic(file_path_var,imageLabel):
         
         
         image = Image.open(file_path)
-        tkinter_image = ImageTk.PhotoImage(image)
+        tkinterImage = ImageTk.PhotoImage(image)
         
-        imageLabel.config(image=tkinter_image)
-        imageLabel.image = tkinter_image
+        imageLabel.config(image=tkinterImage)
+        imageLabel.image = tkinterImage
 
         return file_path
     return None
