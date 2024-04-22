@@ -55,7 +55,6 @@ def simpleAverageFilter(image):
     for x in range(getHeight(image)):
         row = [0] * getWidth(image)
         newImage.append(row)
-    #copy = makeEmptyPicture(getWidth(image),getHeight(image))
     for x in range(1,getHeight(image)-1):
         for y in range(1,getWidth(image)-1):
             neighborhood = callNeighborhood(src,x,y)
@@ -75,30 +74,26 @@ def weightedAverage(image):
         [2,4,2],
         [1,2,1]
     ]
-    newImage = []
-    for x in range(getHeight(image)):
-        row = [0] * getWidth(image)
-        newImage.append(row)
 
-        for x in range(1,height -1):
-            for y in range(1,width-1):
-                weightSum = 0
-                totalWeight = 0
-                for i in range(-1,2):
-                    for j in range(-1,2):
-                        pixel = image2D[x+i][y+j]
-                        weight = weights[i+1][j+1]
-                        weightSum = weightSum +pixel *weight
-                        totalWeight = totalWeight + weight
+    newImage = convertPictureTo2DArray(image)
+    for x in range(1,height -1):
+        for y in range(1,width-1):
+            weightSum = 0
+            totalWeight = 0
+            for i in range(-1,2):
+                for j in range(-1,2):
+                    pixel = image2D[x+i][y+j]
+                    weight = weights[i+1][j+1]
+                    weightSum = weightSum +pixel *weight
+                    totalWeight = totalWeight + weight
 
-                average = weightSum /totalWeight
-                newImage[x][y] = average
+            average = weightSum /totalWeight
+            newImage[x][y] = average
 
     return newImage
 
 # Part 3
 def medianFilter(image):
-    image2D = convertPictureTo2DArray(image)
     height = getHeight(image)
     width = getWidth(image)
     newImage = []
@@ -117,16 +112,10 @@ def medianFilter(image):
             sum.sort()
             value = sum[int(len(sum) / 2)]
             grey = int(value)
-            
-            
             newImage[x][y] = grey
 
 
-    """ for x in range(1,height-1):
-        for y in range(1,width-1):
-            neighborhood = callNeighborhood(image, x, y)
-            median_value = sorted(neighborhood)[4]
-            newImage[x][y] = median_value """
+   
     return newImage
 
 # part 4 Min
@@ -303,6 +292,44 @@ def robertFilter(image):
                 newImage[x][y] = gardientM
 
     return newImage
+
+def neighborhood2(image, x, y, size):
+    offset = size // 2
+    neighborhood = []
+    for i in range(-offset, offset + 1):
+        for j in range(-offset, offset + 1):
+            neighborhood.append(getPixel(image, y + j, x + i).getGray())
+    return neighborhood
+
+def GenerlizedAverage(imageLabel,path,size):
+    image = makePicture(path)
+
+    if size % 2 == 0:
+        raise ValueError("Filter size must be odd.")
+    
+    height = getHeight(image)
+    width = getWidth(image)
+    newImage = []
+    for x in range(getHeight(image)):
+        row = [0] * getWidth(image)
+        newImage.append(row)
+
+
+
+        offset = size // 2
+        for x in range(offset, height - offset):
+            for y in range(offset, width - offset):
+                neighborhood = neighborhood2(image, x, y, size)
+                average = sum(neighborhood) / len(neighborhood)
+                newImage[x][y] = average
+    
+    picture1 = converBackToPicture(newImage)
+    writePictureTo(picture1,"./FilterImage.png")
+    image2 = Image.open("./FilterImage.png")
+    guiImage = ImageTk.PhotoImage(image2)
+    imageLabel.config(image=guiImage)
+    imageLabel.image = guiImage
+
 def performFilter(imageLabel,path,num):
     image = makePicture(path)
     # Simple Average Call
@@ -334,14 +361,11 @@ def performFilter(imageLabel,path,num):
     elif num ==9:
         filterdImgae = robertFilter(image)
 
-    
+
     picture1 = converBackToPicture(filterdImgae)
     writePictureTo(picture1,"./FilterImage.png")
     image2 = Image.open("./FilterImage.png")
     guiImage = ImageTk.PhotoImage(image2)
-    
-
-
     imageLabel.config(image=guiImage)
     imageLabel.image = guiImage
     
@@ -416,6 +440,11 @@ def Gui():
     #Ropert Button
     applyRobertFilterButton = tk.Button(filterButtonsFrame, text="Apply Ropert Filter", command=lambda: performFilter(imageLabel, file_path_var.get(),9), bg="#EEEEEE", fg="#78A083", font=button_font)
     applyRobertFilterButton.pack(pady=10)
+
+    filter_size_entry = tk.Entry(filterButtonsFrame, width=10, font=("Arial", 14))
+    filter_size_entry.pack(pady=10, side=tk.LEFT)
+    applyGeneFilterButton = tk.Button(filterButtonsFrame, text="Apply Generlized Average", command=lambda: GenerlizedAverage(imageLabel, file_path_var.get(),7), bg="#EEEEEE", fg="#78A083", font=button_font)
+    applyGeneFilterButton.pack(pady=10)
 
     
    
