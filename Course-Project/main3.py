@@ -6,6 +6,11 @@ import numpy as np
 
 # Ensure necessary NLTK datasets are downloaded
 nltk.download('vader_lexicon')
+def printAllTheInfo(detailed_sentiments):
+    for sentiment in detailed_sentiments:
+        print(f"Review: {sentiment['review']}\n"
+          f"\nPolarity: {sentiment['polarity']},\n Subjectivity: {sentiment['subjectivity']}, "
+          f"\nIntensity: {sentiment['intensity']}\nKey Words: {', '.join(sentiment['key_words'])}\n")
 
 def analyze_sentiment_details(reviews):
     sia = SentimentIntensityAnalyzer()
@@ -23,15 +28,20 @@ def analyze_sentiment_details(reviews):
         tfidf_scores = np.array(tfidf_vec.todense()).flatten()
 
         # Find top 3 significant words based on TF-IDF scores
-        top_indices = np.argsort(tfidf_scores)[-3:]
-        top_words = [feature_names[index] for index in top_indices if tfidf_scores[index] > 0]
+        top_indices = np.argsort(tfidf_scores)[-2:]
+        topWord = []
+        for index in top_indices:
+            if tfidf_scores[index] >0:
+                word = feature_names[index]
+                topWord.append(word)
+        
 
         detailed_reviews.append({
             'review': review,
-            'polarity': blob.sentiment.polarity,
-            'subjectivity': blob.sentiment.subjectivity,
-            'intensity': vader_scores['compound'],
-            'key_words': top_words
+            'polarity': round(blob.sentiment.polarity,4),
+            'subjectivity': round(blob.sentiment.subjectivity,4),
+            'intensity': round(vader_scores['compound'],3),
+            'key_words': topWord
         })
         
     return detailed_reviews
@@ -44,10 +54,15 @@ reviews = [
     "The plot was interesting, but the execution could have been better.",
     "Absolutely a masterpiece, stunning visuals and gripping plot!"
 ]
+letterBoxedReviews = ["got the 4D experience by forgetting to drink water today and watching this extremely dehydrated",
+                      "not bad if u ever just feel like staring at the color orange and not feeling a single emotion for two and a half hours",
+                      "Anakin's favourite movie.",
+                      "155 minutes of industrial design and thousand-yard-stares while Hans Zimmer honks at you with his giant mechanical goose."]
+
 
 # Analyze reviews
-detailed_sentiments = analyze_sentiment_details(reviews)
-for sentiment in detailed_sentiments:
-    print(f"Review: {sentiment['review']}\n"
-          f"Polarity: {sentiment['polarity']}, Subjectivity: {sentiment['subjectivity']}, "
-          f"Intensity: {sentiment['intensity']}\nKey Words: {', '.join(sentiment['key_words'])}\n")
+def main():
+    detailed_sentiments = analyze_sentiment_details(letterBoxedReviews)
+    printAllTheInfo(detailed_sentiments)
+    
+
