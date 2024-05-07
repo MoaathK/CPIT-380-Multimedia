@@ -4,13 +4,16 @@ import nltk
 from sklearn.feature_extraction.text import TfidfVectorizer
 import numpy as np
 
-# Ensure necessary NLTK datasets are downloaded
+
 nltk.download('vader_lexicon')
 def printAllTheInfo(detailed_sentiments):
+    writeFile  = open(r"./Course-Project/review-analysis-output.txt","wt")
+    #filename = "./review-analysis-output.txt"
     for sentiment in detailed_sentiments:
-        print(f"Review: {sentiment['review']}\n"
-          f"\nPolarity: {sentiment['polarity']},\n Subjectivity: {sentiment['subjectivity']}, "
-          f"\nIntensity: {sentiment['intensity']}\nKey Words: {', '.join(sentiment['key_words'])}\n")
+        writeFile.write(f"\nReview: {sentiment['review']}"
+            f"\nPolarity: {sentiment['polarity']},\nSubjectivity: {sentiment['subjectivity']}, "
+            f"\nIntensity: {sentiment['intensity']}\nKey Words: {', '.join(sentiment['key_words'])}\n")
+    return writeFile
 
 def analyze_sentiment_details(reviews):
     sia = SentimentIntensityAnalyzer()
@@ -56,13 +59,14 @@ reviews = [
 ]
 letterBoxedReviews = ["got the 4D experience by forgetting to drink water today and watching this extremely dehydrated",
                       "not bad if u ever just feel like staring at the color orange and not feeling a single emotion for two and a half hours",
-                      "Anakin's favourite movie.",
+                      "favourite movie.",
                       "155 minutes of industrial design and thousand-yard-stares while Hans Zimmer honks at you with his giant mechanical goose."]
 
 
 # Analyze reviews
 def main():
     detailed_sentiments = analyze_sentiment_details(letterBoxedReviews)
-    printAllTheInfo(detailed_sentiments)
-    
+    fileOutput = printAllTheInfo(detailed_sentiments)
 
+
+main()
