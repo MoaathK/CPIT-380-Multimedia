@@ -7,32 +7,6 @@ import numpy as np
 
 nltk.download('vader_lexicon')
 
-def aspect_based_sentiment_analysis(review, aspects):
-    blob = TextBlob(review)
-    aspect_sentiments = {}
-    
-    for sentence in blob.sentences:
-        for aspect, keywords in aspects.items():
-            if any(keyword in sentence.lower() for keyword in keywords):
-                sentiment = sentence.sentiment.polarity
-                if aspect not in aspect_sentiments:
-                    aspect_sentiments[aspect] = []
-                aspect_sentiments[aspect].append(sentiment)
-    
-    # Calculate average sentiment for each aspect found
-    aspect_summary = {aspect: sum(sentiments) / len(sentiments) if sentiments else 0
-                      for aspect, sentiments in aspect_sentiments.items()}
-    return aspect_summary
-
-# Example usage:
-aspects = {
-    "acting": ["acting", "performance", "cast"],
-    "visuals": ["visuals", "cinematography", "effects"],
-    "plot": ["plot", "storyline", "narrative"]
-}
-
-
-
 def classify_sentiment(polarity):
     """Classify the sentiment based on polarity."""
     if polarity > 0.05:
@@ -109,9 +83,4 @@ letterBoxedReviews = ["got the 4D experience by forgetting to drink water today 
 def main():
     detailed_sentiments = analyze_sentiment_details(letterBoxedReviews)
     fileOutput = printAllTheInfo(detailed_sentiments)
-    review = "The acting was superb, but the plot was somewhat lacking. The visuals were stunning."
-    aspect_sentiments = aspect_based_sentiment_analysis(review, aspects)
-    print(aspect_sentiments)
-
-
 main()
