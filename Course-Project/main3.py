@@ -6,13 +6,27 @@ import numpy as np
 
 
 nltk.download('vader_lexicon')
+def classify_sentiment(polarity):
+    """Classify the sentiment based on polarity."""
+    if polarity > 0.05:
+        return "Positive"
+    elif polarity < -0.05:
+        return "Negative"
+    else:
+        return "Neutral"
+    
+
+
 def printAllTheInfo(detailed_sentiments):
     writeFile  = open(r"./Course-Project/review-analysis-output.txt","wt")
     #filename = "./review-analysis-output.txt"
     for sentiment in detailed_sentiments:
         writeFile.write(f"\nReview: {sentiment['review']}"
-            f"\nPolarity: {sentiment['polarity']},\nSubjectivity: {sentiment['subjectivity']}, "
-            f"\nIntensity: {sentiment['intensity']}\nKey Words: {', '.join(sentiment['key_words'])}\n")
+            f"\nPolarity: {sentiment['polarity']},
+            \nSubjectivity: {sentiment['subjectivity']},
+            "f"\nIntensity: {sentiment['intensity']},
+            "f"\nSentiment Classification: {sentiment['classification']},
+            \nKey Words: {', '.join(sentiment['key_words'])}\n")
     return writeFile
 
 def analyze_sentiment_details(reviews):
@@ -44,6 +58,7 @@ def analyze_sentiment_details(reviews):
             'polarity': round(blob.sentiment.polarity,4),
             'subjectivity': round(blob.sentiment.subjectivity,4),
             'intensity': round(vader_scores['compound'],3),
+            'classification': classify_sentiment(blob.sentiment.polarity),
             'key_words': topWord
         })
         
