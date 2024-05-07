@@ -51,8 +51,8 @@ def printAllTheInfo(detailed_sentiments):
         writeFile.write(f"\nReview: {sentiment['review']}"
             f"\nPolarity: {sentiment['polarity']},
             \nSubjectivity: {sentiment['subjectivity']},
-            \nIntensity: {sentiment['intensity']},
-            \\nSentiment Classification: {sentiment['classification']},
+            "f"\nIntensity: {sentiment['intensity']},
+            "f"\nSentiment Classification: {sentiment['classification']},
             \nKey Words: {', '.join(sentiment['key_words'])}\n")
     return writeFile
 

@@ -1,24 +1,28 @@
 
 Review: got the 4D experience by forgetting to drink water today and watching this extremely dehydrated
-Polarity: -0.125,
-Subjectivity: 1.0, 
+Polarity: -0.125
+Subjectivity: 1.0
 Intensity: 0.0
+Sentiment Classification: Negative
 Key Words: water, drink
 
 Review: not bad if u ever just feel like staring at the color orange and not feeling a single emotion for two and a half hours
-Polarity: 0.0373,
-Subjectivity: 0.3492, 
+Polarity: 0.0373
+Subjectivity: 0.3492
 Intensity: 0.61
+Sentiment Classification: Neutral
 Key Words: just, emotion
 
 Review: favourite movie.
-Polarity: 0.0,
-Subjectivity: 0.0, 
+Polarity: 0.0
+Subjectivity: 0.0
 Intensity: 0.0
+Sentiment Classification: Neutral
 Key Words: favourite, movie
 
 Review: 155 minutes of industrial design and thousand-yard-stares while Hans Zimmer honks at you with his giant mechanical goose.
-Polarity: 0.0,
-Subjectivity: 1.0, 
+Polarity: 0.0
+Subjectivity: 1.0
 Intensity: 0.0
+Sentiment Classification: Neutral
 Key Words: minutes, zimmer
