@@ -21,12 +21,12 @@ def printAllTheInfo(detailed_sentiments):
     writeFile  = open(r"./Course-Project/review-analysis-output.txt","wt")
     #filename = "./review-analysis-output.txt"
     for sentiment in detailed_sentiments:
-        writeFile.write(f"\nReview: {sentiment['review']}"
-            f"\nPolarity: {sentiment['polarity']},
-            \nSubjectivity: {sentiment['subjectivity']},
-            "f"\nIntensity: {sentiment['intensity']},
-            "f"\nSentiment Classification: {sentiment['classification']},
-            \nKey Words: {', '.join(sentiment['key_words'])}\n")
+        writeFile.write(f"\nReview: {sentiment['review']}\n"
+                                f"Polarity: {sentiment['polarity']}\n"
+                                f"Subjectivity: {sentiment['subjectivity']}\n"
+                                f"Intensity: {sentiment['intensity']}\n"
+                                f"Sentiment Classification: {sentiment['classification']}\n"
+                                f"Key Words: {', '.join(sentiment['key_words'])}\n")
     return writeFile
 
 def analyze_sentiment_details(reviews):
