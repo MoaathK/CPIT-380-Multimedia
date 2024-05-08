@@ -8,19 +8,17 @@ import numpy as np
 nltk.download('vader_lexicon')
 
 def classify_sentiment(polarity):
-    """Classify the sentiment based on polarity."""
     if polarity > 0.05:
-        return "Positive"
+        return "This Movie review is Positive"
     elif polarity < -0.05:
-        return "Negative"
+        return "This Movie review is Negative"
     else:
-        return "Neutral"
+        return "This Movie review is Neutral"
     
 
 
 def printAllTheInfo(detailed_sentiments):
     writeFile  = open(r"./Course-Project/review-analysis-output.txt","wt")
-    #filename = "./review-analysis-output.txt"
     for sentiment in detailed_sentiments:
         writeFile.write(f"\nReview: {sentiment['review']}\n"
             f"Polarity: {sentiment['polarity']}\n"
@@ -30,42 +28,44 @@ def printAllTheInfo(detailed_sentiments):
             f"Key Words: {', '.join(sentiment['key_words'])}\n")
     return writeFile
 
-def analyze_sentiment_details(reviews):
-    sia = SentimentIntensityAnalyzer()
-    vectorizer = TfidfVectorizer(stop_words='english')
 
-    # Calculate TF-IDF scores to identify significant words
-    tfidf_matrix = vectorizer.fit_transform(reviews)
-    feature_names = vectorizer.get_feature_names_out()
+# 
+def MovieSentimentReview(reviews):
+    sia = SentimentIntensityAnalyzer()
+    vectorizer = TfidfVectorizer(stopWords='english')
+
+    # Calculate TF-IDF scores to get the most importent words
+    tfidfMatrix = vectorizer.fit_transform(reviews)
+    featureNames = vectorizer.get_feature_names_out()
 
     detailed_reviews = []
-    
-    for review, tfidf_vec in zip(reviews, tfidf_matrix):
+    # this iterartion will go throghout all the reviews provided to Know if they are 'Positive', 'Negative', 'Neutral'
+    for review, tfidfVec in zip(reviews, tfidfMatrix):
         blob = TextBlob(review)
-        vader_scores = sia.polarity_scores(review)
-        tfidf_scores = np.array(tfidf_vec.todense()).flatten()
+        vaderScores = sia.polarity_scores(review)
+        tfidfScores = np.array(tfidfVec.todense()).flatten()
 
-        # Find top 3 significant words based on TF-IDF scores
-        top_indices = np.argsort(tfidf_scores)[-2:]
+        # Find top 2 significant words based on TF-IDF scores that we calculated 
+        top_indices = np.argsort(tfidfScores)[-2:]
         topWord = []
         for index in top_indices:
-            if tfidf_scores[index] >0:
-                word = feature_names[index]
+            if tfidfScores[index] >0:
+                word = featureNames[index]
                 topWord.append(word)
         
-
+        # we will append the reviews to a format way
         detailed_reviews.append({
-            'review': review,
-            'polarity': round(blob.sentiment.polarity,4),
+            'The Review': review,
+            'polarity Of the review': round(blob.sentiment.polarity,4),
             'subjectivity': round(blob.sentiment.subjectivity,4),
-            'intensity': round(vader_scores['compound'],3),
-            'classification': classify_sentiment(blob.sentiment.polarity),
-            'key_words': topWord
+            'intensity': round(vaderScores['compound'],3),
+            'Review classification': classify_sentiment(blob.sentiment.polarity),
+            'Key words': topWord
         })
         
     return detailed_reviews
 
-# Example reviews
+# *Delete This After Editing*  Example reviews, Muhanned choice the best method that you would like on providing The Reviews.
 reviews = [
     "The movie was an incredible journey, I loved every moment!",
     "It was a decent movie, not too bad but could be better.",
@@ -73,14 +73,18 @@ reviews = [
     "The plot was interesting, but the execution could have been better.",
     "Absolutely a masterpiece, stunning visuals and gripping plot!"
 ]
+# here is the Review Example, We could choice more reviews Based on movies from LetterBoxed
 letterBoxedReviews = ["got the 4D experience by forgetting to drink water today and watching this extremely dehydrated",
                       "not bad if u ever just feel like staring at the color orange and not feeling a single emotion for two and a half hours",
                       "favourite movie.",
                       "155 minutes of industrial design and thousand-yard-stares while Hans Zimmer honks at you with his giant mechanical goose."]
 
 
-# Analyze reviews
+# Main function
 def main():
-    detailed_sentiments = analyze_sentiment_details(letterBoxedReviews)
-    fileOutput = printAllTheInfo(detailed_sentiments)
+    # calling the Movie Sentiment Review Function, and returing the reviews
+    detailedSentiments = MovieSentimentReview(letterBoxedReviews)
+    # here i wrote all the review sentiment in a file that you can read from it later
+    fileOutput = printAllTheInfo(detailedSentiments)
+    # you could play with this file as you like
 main()
