@@ -1,6 +1,6 @@
 from jes4py import*
 #airplane
-aSound = makeSound("C:\\Users\\m_h37\\Desktop\\Github\\CPIT-380-Multimedia\\Lab-8\\Sounds\\and.wav")
+aSound = makeSound("/Users/moath/Documents/Github/CPIT-380-Multimedia/Lab-8/Sounds/about.wav")
 def example1():
     print(aSound)
 
@@ -38,7 +38,7 @@ def increaseVolumeByRange(sound):
         value = getSampleValueAt(sound,index)
         setSampleValueAt(sound, index,value*2)
     blockingPlay(sound)
-
+# 
 def normalize(sound):
     #incresedSound = increseVolume(sound,10)
     blockingPlay(sound)
@@ -55,11 +55,45 @@ def normalize(sound):
 
     blockingPlay(sound)
 
+# this will increase the sound or decrease it by the factor which the user will provide it.
+def changeVolume(sound,factor):
+    for sample in getSamples(sound):
+        value = getSampleValue(sample)
+        setSampleValue(sample,value*factor)
+    
+    blockingPlay(sound)
+
+
+"""
+def merge():
+    people = makeSound(getMediaPath("/Users/moath/Documents/Github/CPIT-380-Multimedia/Lab-8/Sounds/people.wav"))
+    outside = makeSound(getMediaPath("/Users/moath/Documents/Github/CPIT-380-Multimedia/Lab-8/Sounds/outside.wav"))
+    target = makeEmptySound(getSamples(people)+getSamples(outside) + 3,)
+    
+    index = 0
+    for source in getSamples(people):
+        value = getSampleValueAt(people,index)
+        setSampleValueAt(target,index,value)
+        index += 1
+    for source in range(0, int(0.1 * getSamplingRate(target))):
+        setSampleValueAt(target,index,0)
+        index +=1
+    for source in getSamples(outside):
+        value = getSampleValueAt(outside,index)
+        setSampleValueAt(target,index,value)
+        index +=1
+    
+    normalize(target)
+    blockingPlay(target)
+
+        
+"""
 def main():
     #increseVolume(aSound)
     #increseVolume2(aSound)
     #increaseVolumeByRange(aSound)
     normalize(aSound)
+    #merge()
 
 
 main()
