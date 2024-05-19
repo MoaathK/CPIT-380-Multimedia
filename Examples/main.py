@@ -18,7 +18,7 @@ def neg(pic):
         setColor(p,nuColor)
 
 def main():
-    salad = makePicture("/Users/moath/Documents/Github/CPIT-380-Multimedia/salad.jpg")
+    salad = makePicture("")
     edge(salad)
     neg(salad)
     explore(salad)
