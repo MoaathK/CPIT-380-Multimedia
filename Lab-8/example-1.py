@@ -64,7 +64,7 @@ def changeVolume(sound,factor):
     blockingPlay(sound)
 
 
-"""
+
 def merge():
     people = makeSound(getMediaPath("/Users/moath/Documents/Github/CPIT-380-Multimedia/Lab-8/Sounds/people.wav"))
     outside = makeSound(getMediaPath("/Users/moath/Documents/Github/CPIT-380-Multimedia/Lab-8/Sounds/outside.wav"))
@@ -72,14 +72,14 @@ def merge():
     
     index = 0
     for source in getSamples(people):
-        value = getSampleValueAt(people,index)
+        value = getSampleValueAt(people,source)
         setSampleValueAt(target,index,value)
         index += 1
-    for source in range(0, int(0.1 * getSamplingRate(target))):
+    for source in range(0, int(0.1 * getSamplingRate(target))): ## putting space between the two words
         setSampleValueAt(target,index,0)
         index +=1
     for source in getSamples(outside):
-        value = getSampleValueAt(outside,index)
+        value = getSampleValueAt(outside,source)
         setSampleValueAt(target,index,value)
         index +=1
     
@@ -87,7 +87,22 @@ def merge():
     blockingPlay(target)
 
         
-"""
+def reverse(sound): # this function do reversing to sounds 
+    target = makeEmptySound(getLength(sound))
+    sourceIndex = getLength(sound)-1
+    for targetIndex in range(0,getLength(target)):
+        value = getSampleValueAt(sound,sourceIndex)
+        setSampleValueAt(target,targetIndex,value)
+        sourceIndex = sourceIndex-1
+
+def mirroring(sound):
+    length = getLength(sound)
+    mirrorPoint = length/2
+    for index in range(0,mirrorPoint):
+        left = getSampleObjectAt(sound,index)
+        right = getSampleObjectAt(sound,length-index -1)
+        value = getSampleValue(left)
+        setSampleValue(right,value)
 def main():
     #increseVolume(aSound)
     #increseVolume2(aSound)
