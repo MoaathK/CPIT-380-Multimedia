@@ -95,7 +95,7 @@ def reverse(sound): # this function do reversing to sounds
         setSampleValueAt(target,targetIndex,value)
         sourceIndex = sourceIndex-1
 
-def mirroring(sound):
+def mirroring(sound): # this function should perform a mirroring to sounds
     length = getLength(sound)
     mirrorPoint = length/2
     for index in range(0,mirrorPoint):
@@ -103,6 +103,17 @@ def mirroring(sound):
         right = getSampleObjectAt(sound,length-index -1)
         value = getSampleValue(left)
         setSampleValue(right,value)
+
+
+def echo(soundPath,deley): # this function will make the sound have echo
+    sound1 = makeSound(soundPath)
+    sound2 = makeSound(soundPath)
+    for index in range(deley,getLength(sound1)):
+        echo = 0.6 * getSampleValueAt(sound2,index-deley)
+        combo = getSampleValueAt(sound1,index ) +echo
+        setSampleValueAt(sound1,index,combo)
+
+    
 def main():
     #increseVolume(aSound)
     #increseVolume2(aSound)
